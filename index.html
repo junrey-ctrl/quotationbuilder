@@ -16,6 +16,52 @@
 @media(max-width:700px){.quote-page{padding:20px;min-height:0}.quote-parties{gap:12px}.quote-footer{position:static;margin-top:26px}.quote-items th,.quote-items td{font-size:8px;padding:4px 2px}.quote-item-details{font-size:7.5px}}
 /* PDF export: print only the generated quotation, never the builder form. */
 @media print{body.printing{background:#fff!important}body.printing .shell>.top,body.printing .shell>.footer,body.printing .layout>.side,body.printing .layout>.main>#builderView,body.printing .layout>.main>#documentsView,body.printing .layout>.main>#settingsView,body.printing #toast{display:none!important}body.printing .layout{display:block!important;max-width:none!important;margin:0!important;padding:0!important}body.printing .layout>.main{display:block!important;width:100%!important;margin:0!important;padding:0!important}body.printing #printArea{display:block!important;visibility:visible!important}body.printing .quote-document{display:block!important;width:210mm!important;margin:0!important}body.printing .quote-page{break-after:page;page-break-after:always}body.printing .quote-page:last-child{break-after:auto;page-break-after:auto}}
+
+/* Screenshot-matched Skylar quotation styling */
+.quote-header{align-items:flex-start;border-bottom:0;padding:0 0 16px;min-height:108px}
+.quote-title{text-align:left;font-size:10px;line-height:1.7;min-width:58%}
+.quote-title h1{font-size:21px;font-weight:400;text-transform:none;color:#30343a;margin:0 0 7px}
+.quote-meta{display:grid;grid-template-columns:112px 1fr;column-gap:8px;max-width:330px;color:#252525}
+.quote-meta b{font-weight:700;color:#777}
+.quote-logo{width:40%;max-width:250px;display:flex;justify-content:flex-end;align-items:flex-start;padding-top:4px}
+.quote-logo svg{width:100%;height:auto;max-height:82px}
+.quote-parties{gap:10px;margin:0 0 12px}
+.quote-party{background:#d4d4d4;border-radius:5px;padding:10px 11px;font-size:9.5px;line-height:1.42;min-height:116px;color:#111}
+.quote-party h3{font-size:14px;font-weight:400;color:#222;border:0;padding:0;margin:0 0 2px}
+.quote-party b{font-size:10px}
+.quote-items{border-collapse:collapse;margin-top:0}
+.quote-items th{background:#202020;color:#fff;font-size:8px;padding:7px 5px;border:1px solid #111}
+.quote-items td{font-size:8.5px;padding:7px 5px;border-bottom:1px solid #b8b8b8}
+.quote-items tbody tr:nth-child(even){background:#d5d5d5}
+.quote-items tbody tr:nth-child(odd){background:#fff}
+.quote-items th:first-child{width:37%}
+.quote-items th:nth-child(2){width:9%}
+.quote-items th:nth-child(3){width:6%}
+.quote-items th:nth-child(4){width:14%}
+.quote-items th:nth-child(5),.quote-items th:nth-child(6),.quote-items th:nth-child(7){width:11.3%}
+.quote-item-details{color:#111;font-size:8.5px;padding-left:19px;margin-top:8px;line-height:1.5}
+.quote-totals{width:39%;margin:7px 10px 0 auto;font-size:9px}
+.quote-totals>div{border:0;padding:5px 0}
+.quote-grand{border-top:1px solid #222!important;font-size:13px;color:#222;padding-top:5px!important}
+.quote-short-sign{margin-top:36px;padding-right:4%;font-size:10px;color:#1010a8}
+.quote-page-two{padding-top:18px}
+.quote-page-two .quote-section{font-size:9.5px;line-height:1.42;margin:0 0 15px}
+.quote-page-two .quote-section h3{font-size:12px;text-transform:none;font-weight:800;color:#252525;border:0;padding:0;margin:0 0 2px}
+.quote-page-two .quote-section ol{margin:0 0 0 19px;padding:0}
+.quote-page-two .quote-section li{padding:0 0 1px}
+.quote-closing{font-size:10px;line-height:1.4;margin:18px 0 10px}
+.quote-signature{border:0;padding:0;margin-top:10px;width:100%;font-size:9px}
+.quote-signature b{font-size:11px;text-transform:none;font-weight:400}
+.quote-footer{border-top:1px dashed #8da1b8;left:30px;right:30px;bottom:16px;padding-top:6px;color:#111;font-size:7px}
+@media print{
+.quote-page{padding:12mm 11mm 20mm}
+.quote-header{min-height:31mm}
+.quote-parties{margin-bottom:4mm}
+.quote-party{min-height:38mm}
+.quote-footer{left:11mm;right:11mm;bottom:6mm}
+.quote-page-two{padding-top:7mm}
+}
+
 .quote-section ol{margin:6px 0 0 20px;padding:0}.quote-section li{padding:0 0 4px 2px}.quote-section li::marker{color:#42566b}</style>
 </head>
 <body><div class="shell">
@@ -118,14 +164,14 @@ const footer=n=>'<div class="quote-footer"><span>Quotation No. '+esc(d.docNo)+' 
 const from='<div class="quote-party"><h3>Quotation From</h3><b>'+esc(d.fromName)+'</b><div>'+esc(d.fromAddress).replace(/\n/g,'<br>')+'</div><div>TIN Number: '+esc(d.fromTin)+'</div><div>Email: '+esc(d.fromEmail)+'</div><div>Phone: '+esc(d.fromPhone)+'</div></div>';
 const to='<div class="quote-party"><h3>Quotation For</h3><b>'+esc(d.clientName)+'</b><div>'+esc(d.clientAddress).replace(/\n/g,'<br>')+'</div><div>Contact Person: '+esc(d.clientContact)+'</div><div>Contact Email: '+esc(d.clientEmail)+'</div><div>Contact Phone: '+esc(d.clientPhone)+'</div></div>';
 return '<div class="quote-document"><section class="quote-page quote-page-one">'+
-'<div class="quote-header"><div><div class="quote-company">'+esc(d.fromName)+'</div><div class="quote-site">'+esc(d.fromWebsite)+'</div></div><div class="quote-title"><h1>'+esc(d.docType||'Quotation')+'</h1><b>'+esc(d.docNo)+'</b><div>Quotation Date: '+esc(d.issueDate)+'</div><div>Valid Till Date: '+esc(d.validDate)+'</div></div></div>'+
+'<div class="quote-header"><div class="quote-title"><h1>'+esc(d.docType||'Quotation')+'</h1><div class="quote-meta"><b>Quotation No</b><span>'+esc(d.docNo)+'</span><b>Quotation Date</b><span>'+esc(d.issueDate)+'</span><b>Valid Till Date</b><span>'+esc(d.validDate)+'</span></div></div><div class="quote-logo" aria-label="Skylar Education Asia"><svg viewBox="0 0 250 90" role="img" aria-label="Skylar Education Asia"><path d="M18 10 L38 42 L18 76 M18 10 L30 42 L18 76 M30 42 L55 42" fill="none" stroke="#1010b8" stroke-width="2.2"/><text x="55" y="47" font-family="Arial,sans-serif" font-size="31" letter-spacing="8" fill="#1010b8">SKYLAR</text><text x="57" y="68" font-family="Arial,sans-serif" font-size="12" letter-spacing="4" fill="#1010b8">EDUCATION ASIA</text></svg></div></div>'+
 '<div class="quote-parties">'+from+to+'</div>'+
 (d.reference?'<div class="quote-reference">Reference: '+esc(d.reference)+'</div>':'')+
 '<table class="quote-items"><thead><tr><th>Item</th><th class="num">Quantity</th><th>Unit</th><th>Duration</th><th class="num">Rate</th><th class="num">Amount</th><th class="num">Total</th></tr></thead><tbody>'+lines+'</tbody></table>'+
 '<div class="quote-totals"><div><span>Amount</span><b>'+fmt(sub)+'</b></div>'+(+d.discount?'<div><span>Discount ('+(+d.discount)+'%)</span><b>-'+fmt(disc)+'</b></div>':'')+'<div><span>TAX</span><b>'+fmt(tax)+'</b></div><div class="quote-grand"><span>Total ('+esc(cur)+')</span><b>'+fmt(total)+'</b></div></div>'+
 (d.scope?'<div class="quote-scope"><b>Scope / Description</b><div>'+esc(d.scope).replace(/\n/g,'<br>')+'</div></div>':'')+
 '<div class="quote-short-sign">'+esc(d.signName||'')+'</div>'+footer(1)+'</section>'+
-'<section class="quote-page quote-page-two"><div class="quote-page-heading"><div class="quote-company">'+esc(d.fromName)+'</div><div>'+esc(d.docNo)+' &nbsp; | &nbsp; '+esc(d.clientName)+'</div></div>'+
+'<section class="quote-page quote-page-two">'+
 section('Terms and Conditions',d.terms)+section('Inclusions',d.inclusions)+section('Exclusions',d.exclusions)+
 (d.paymentTerms?section('Payment Terms',d.paymentTerms):'')+(d.delivery?section('Delivery / Schedule',d.delivery):'')+(d.notes?section('Notes',d.notes):'')+
 '<section class="quote-section"><h3>Contact Information: '+esc(d.fromName)+'</h3><div>'+(d.contactInfo?esc(d.contactInfo).replace(/\n/g,'<br>'):'Email: '+esc(d.fromEmail)+'<br>Phone: '+esc(d.fromPhone)+(d.signEmail&&d.signEmail!==d.fromEmail?'<br>Email: '+esc(d.signEmail):''))+'</div></section>'+
