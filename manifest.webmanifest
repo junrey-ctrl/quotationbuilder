@@ -1,0 +1,11 @@
+{
+  "name": "Skylar Desk — Proposal & Quotation Builder",
+  "short_name": "Skylar Desk",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#f3f6fa",
+  "theme_color": "#102b46",
+  "description": "Offline-first proposal, quotation, invoice and purchase order builder.",
+  "icons": []
+}
