@@ -24,7 +24,7 @@
 .quote-meta{display:grid;grid-template-columns:112px 1fr;column-gap:8px;max-width:330px;color:#252525}
 .quote-meta b{font-weight:700;color:#777}
 .quote-logo{width:40%;max-width:250px;display:flex;justify-content:flex-end;align-items:flex-start;padding-top:4px}
-.quote-logo svg{width:100%;height:auto;max-height:82px}
+.quote-logo img{display:block;width:100%;height:auto;max-height:82px;object-fit:contain;object-position:right top}
 .quote-parties{gap:10px;margin:0 0 12px}
 .quote-party{background:#d4d4d4;border-radius:5px;padding:10px 11px;font-size:9.5px;line-height:1.42;min-height:116px;color:#111}
 .quote-party h3{font-size:14px;font-weight:400;color:#222;border:0;padding:0;margin:0 0 2px}
@@ -164,7 +164,7 @@ const footer=n=>'<div class="quote-footer"><span>Quotation No. '+esc(d.docNo)+' 
 const from='<div class="quote-party"><h3>Quotation From</h3><b>'+esc(d.fromName)+'</b><div>'+esc(d.fromAddress).replace(/\n/g,'<br>')+'</div><div>TIN Number: '+esc(d.fromTin)+'</div><div>Email: '+esc(d.fromEmail)+'</div><div>Phone: '+esc(d.fromPhone)+'</div></div>';
 const to='<div class="quote-party"><h3>Quotation For</h3><b>'+esc(d.clientName)+'</b><div>'+esc(d.clientAddress).replace(/\n/g,'<br>')+'</div><div>Contact Person: '+esc(d.clientContact)+'</div><div>Contact Email: '+esc(d.clientEmail)+'</div><div>Contact Phone: '+esc(d.clientPhone)+'</div></div>';
 return '<div class="quote-document"><section class="quote-page quote-page-one">'+
-'<div class="quote-header"><div class="quote-title"><h1>'+esc(d.docType||'Quotation')+'</h1><div class="quote-meta"><b>Quotation No</b><span>'+esc(d.docNo)+'</span><b>Quotation Date</b><span>'+esc(d.issueDate)+'</span><b>Valid Till Date</b><span>'+esc(d.validDate)+'</span></div></div><div class="quote-logo" aria-label="Skylar Education Asia"><svg viewBox="0 0 250 90" role="img" aria-label="Skylar Education Asia"><path d="M18 10 L38 42 L18 76 M18 10 L30 42 L18 76 M30 42 L55 42" fill="none" stroke="#1010b8" stroke-width="2.2"/><text x="55" y="47" font-family="Arial,sans-serif" font-size="31" letter-spacing="8" fill="#1010b8">SKYLAR</text><text x="57" y="68" font-family="Arial,sans-serif" font-size="12" letter-spacing="4" fill="#1010b8">EDUCATION ASIA</text></svg></div></div>'+
+'<div class="quote-header"><div class="quote-title"><h1>'+esc(d.docType||'Quotation')+'</h1><div class="quote-meta"><b>Quotation No</b><span>'+esc(d.docNo)+'</span><b>Quotation Date</b><span>'+esc(d.issueDate)+'</span><b>Valid Till Date</b><span>'+esc(d.validDate)+'</span></div></div><div class="quote-logo"><img src="/skylar-logo.svg" alt="Skylar Education Asia" /></div></div>'+
 '<div class="quote-parties">'+from+to+'</div>'+
 (d.reference?'<div class="quote-reference">Reference: '+esc(d.reference)+'</div>':'')+
 '<table class="quote-items"><thead><tr><th>Item</th><th class="num">Quantity</th><th>Unit</th><th>Duration</th><th class="num">Rate</th><th class="num">Amount</th><th class="num">Total</th></tr></thead><tbody>'+lines+'</tbody></table>'+
