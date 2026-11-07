@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#102b46"><meta name="description" content="Offline-first proposal, quotation, invoice and purchase order builder for Skylar Education Asia.">
-<link rel="manifest" href="/manifest.webmanifest">
+<link rel="manifest" href="./manifest.webmanifest">
 <title>Skylar Desk — Proposal & Quotation Builder</title>
 <style>
 :root{--navy:#102b46;--blue:#1769aa;--cyan:#19a7c7;--ink:#17283b;--muted:#64748b;--line:#dce4ed;--bg:#f3f6fa;--white:#fff;--green:#16835d;--amber:#a96506;--shadow:0 10px 30px #16324d12}
@@ -78,7 +78,7 @@
 </style>
 </head>
 <body><div class="shell">
-<header class="top"><div class="brand"><div class="brand-logo"><img src="/skylar-logo.svg" alt="Skylar Education Asia"></div><div><strong>SKYLAR DESK</strong><small>Proposal & Quotation Builder</small></div></div><div class="status"><span class="pill"><i class="dot"></i><span id="networkLabel">Offline-ready</span></span><span class="pill" id="saveLabel">Local workspace</span></div></header>
+<header class="top"><div class="brand"><div class="brand-logo"><img src="./skylar-logo.svg" alt="Skylar Education Asia"></div><div><strong>SKYLAR DESK</strong><small>Proposal & Quotation Builder</small></div></div><div class="status"><span class="pill"><i class="dot"></i><span id="networkLabel">Offline-ready</span></span><span class="pill" id="saveLabel">Local workspace</span></div></header>
 <div class="layout">
 <aside class="side no-print"><h4>Workspace</h4><button class="nav active" data-view="builder">＋ New document</button><button class="nav" data-view="documents">▤ Saved documents</button><button class="nav" data-view="sales">▥ Sales dashboard</button><button class="nav" data-view="social">▣ Social media reports</button><button class="nav" data-view="settings">⚙ Company settings</button><div class="tip">Your drafts save automatically on this device. Internet is only needed for cross-device sync, when configured.</div></aside>
 <main class="main">
@@ -213,7 +213,7 @@ const footer=n=>'<div class="quote-footer"><span>Quotation No. '+esc(d.docNo)+' 
 const from='<div class="quote-party"><h3>Quotation From</h3><b>'+esc(d.fromName)+'</b><div>'+esc(d.fromAddress).replace(/\n/g,'<br>')+'</div><div>TIN Number: '+esc(d.fromTin)+'</div><div>Email: '+esc(d.fromEmail)+'</div><div>Phone: '+esc(d.fromPhone)+'</div></div>';
 const to='<div class="quote-party"><h3>Quotation For</h3><b>'+esc(d.clientName)+'</b><div>'+esc(d.clientAddress).replace(/\n/g,'<br>')+'</div><div>Contact Person: '+esc(d.clientContact)+'</div><div>Contact Email: '+esc(d.clientEmail)+'</div><div>Contact Phone: '+esc(d.clientPhone)+'</div></div>';
 return '<div class="quote-document"><section class="quote-page quote-page-one">'+
-'<div class="quote-header"><div class="quote-title"><h1>'+esc(d.docType||'Quotation')+'</h1><div class="quote-meta"><b>Quotation No</b><span>'+esc(d.docNo)+'</span><b>Quotation Date</b><span>'+esc(d.issueDate)+'</span><b>Valid Till Date</b><span>'+esc(d.validDate)+'</span></div></div><div class="quote-logo">'+(d.logo?'<img src="'+d.logo+'" alt="Company logo" />':'<img src="/skylar-logo.svg" alt="Skylar Education Asia" />')+'</div></div>'+
+' <div class="quote-header"><div class="quote-title"><h1>'+esc(d.docType||'Quotation')+'</h1><div class="quote-meta"><b>Quotation No</b><span>'+esc(d.docNo)+'</span><b>Quotation Date</b><span>'+esc(d.issueDate)+'</span><b>Valid Till Date</b><span>'+esc(d.validDate)+'</span></div></div><div class="quote-logo">'+(d.logo?'<img src="'+d.logo+'" alt="Company logo" />':'<img src="./skylar-logo.svg" alt="Skylar Education Asia" />')+'</div></div>' +
 '<div class="quote-parties">'+from+to+'</div>'+
 (d.reference?'<div class="quote-reference">Reference: '+esc(d.reference)+'</div>':'')+
 '<table class="quote-items"><thead><tr><th>Item</th><th class="num">Quantity</th><th>Unit</th><th>Duration</th><th class="num">Rate</th><th class="num">Amount</th><th class="num">Total</th></tr></thead><tbody>'+lines+'</tbody></table>'+
@@ -302,7 +302,7 @@ const rows=loadSocialRows(),idx=rows.findIndex(x=>x.month===month&&x.platform===
 }
 function exportSocialCsv(){const rows=loadSocialRows(),head=['Month','Platform','Followers','Reach or users','Impressions','Engagements','Clicks','Leads','New reviews'],keys=['month','platform','followers','reach','impressions','engagements','clicks','leads','reviews'];const csv=[head,...rows.map(x=>keys.map(k=>x[k]??''))].map(r=>r.map(v=>'"'+String(v).replace(/"/g,'""')+'"').join(',')).join('\r\n');downloadSalesFile('Skylar_Education_Asia_Social_Media_Report.csv','\ufeff'+csv,'text/csv;charset=utf-8')}
 $('socialSaveBtn').onclick=saveSocialMetric;$('socialCsvBtn').onclick=exportSocialCsv;$('socialClearBtn').onclick=()=>{if(confirm('Clear all manually entered social media report rows on this browser?')){localStorage.removeItem(SOCIAL_KEY);renderSocialDashboard();toast('Social report data cleared')}};$('socialMonth').onchange=renderSocialDashboard;$('socialPrintBtn').onclick=()=>{document.body.classList.add('sales-print');const clean=()=>{document.body.classList.remove('sales-print');window.removeEventListener('afterprint',clean)};window.addEventListener('afterprint',clean);window.print();setTimeout(clean,1800)};
-\nfunction salesRows(){return [['Quotation No.','Date','Customer','Scope','Participants / lines','Value USD','Status'],...SALES_REGISTER.map(x=>[x.no,x.date,x.customer,x.scope,x.pax,x.value??'',x.status])]}
+function salesRows(){return [['Quotation No.','Date','Customer','Scope','Participants / lines','Value USD','Status'],...SALES_REGISTER.map(x=>[x.no,x.date,x.customer,x.scope,x.pax,x.value??'',x.status])]}
 function downloadSalesFile(name,content,type){const blob=new Blob([content],{type}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(url),1000)}
 function exportSalesCsv(){const csv=salesRows().map(r=>r.map(v=>'"'+String(v).replace(/"/g,'""')+'"').join(',')).join('\\r\\n');downloadSalesFile('Skylar_Education_Asia_Sales_Register_2026.csv','\\ufeff'+csv,'text/csv;charset=utf-8')}
 function exportSalesExcel(){
