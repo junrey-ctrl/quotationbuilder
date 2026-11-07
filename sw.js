@@ -1,4 +1,4 @@
-const CACHE='skylar-desk-v4';
+const CACHE='skylar-desk-v5';
 const ASSETS=['/','/index.html','/manifest.webmanifest','/skylar-logo.svg'];
 
 self.addEventListener('install',event=>{
