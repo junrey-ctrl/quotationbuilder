@@ -1,5 +1,5 @@
-const CACHE='skylar-desk-v2';
-const ASSETS=['/','/index.html','/manifest.webmanifest'];
+const CACHE='skylar-desk-v3';
+const ASSETS=['/','/index.html','/manifest.webmanifest','/skylar-logo.svg'];
 
 self.addEventListener('install',event=>{
   event.waitUntil(caches.open(CACHE).then(cache=>cache.addAll(ASSETS)));
