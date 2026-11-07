@@ -1,5 +1,16 @@
 # Skylar Education Asia — Sales Report 2026
 
+## Monthly snapshot — 7 November 2026
+
+Repository review found no newer sales workbook, source register, or additional sales-data file beyond the current 2026 register and report. No new quotation rows or status changes were available to reconcile in this run. Accordingly, the register and headline metrics remain unchanged from the last recorded snapshot.
+
+- Awarded contracts: **2**; awarded contract value: **USD 9,200.00**; awarded trainees: **10**.
+- Priced proposal opportunities: **4**; priced proposal pipeline: **USD 5,706.20**.
+- Unpriced proposal schedules: **5**; superseded quotation versions: **3**.
+- Conversion by count is not reported as a reliable KPI because the source does not establish a complete cohort of decided proposals. Payment, collection, completion, costs, and margin remain unprovided.
+
+**Monthly action:** obtain the latest sales register or workbook and update each open proposal with an owner, next follow-up date, and verified outcome. Confirm invoicing, collections, and training completion separately before reporting cash or realised revenue.
+
 **Report date:** 7 November 2026  
 **Market:** Philippines  
 **Reporting currency:** USD  
