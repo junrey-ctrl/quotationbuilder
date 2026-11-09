@@ -48,5 +48,3 @@ self.addEventListener('fetch',event=>{
     });
   }));
 });
-
-[executed on device: MSI (864cdbb2-925e-4012-9a0d-c0374f6639f0)]
