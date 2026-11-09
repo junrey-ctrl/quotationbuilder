@@ -53,5 +53,3 @@ Create/select a project at https://console.cloud.google.com/. Configure OAuth co
 - [ ] Sync either imports provider metrics or shows an explicit permission/approval error.
 - [ ] Disconnect removes only the selected provider connection.
 - [ ] Existing quotation builder, PDF export, Gmail drafts, document list and sales dashboard remain functional.
-
-[executed on device: MSI (864cdbb2-925e-4012-9a0d-c0374f6639f0)]
