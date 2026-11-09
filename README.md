@@ -46,8 +46,18 @@ Skylar Desk can prepare a Gmail draft with the generated proposal PDF attached. 
 The OAuth client ID is public browser configuration, not a client secret. Google may require consent-screen publishing or test-user configuration depending on the OAuth app's status. PDF generation loads html2pdf.js from a CDN and therefore requires an internet connection for this feature; the rest of the offline-first app remains available.
 
 
+## Authentication and route protection
+
+- Passwordless Supabase email-link sign-in with PKCE is provided at `/login.html`.
+- Vercel Routing Middleware protects `/` and `/index.html` by verifying the signed-in user's access token with Supabase Auth and checking the confirmed allowlisted email.
+- The browser uses only the Supabase publishable key. The Supabase secret key is required only by the server-side social integration API and must never be exposed to the browser.
+- The static app stores quotation drafts in browser local storage. The route guard protects the app entry page, not every static asset; use authenticated server APIs and RLS for confidential cloud records.
+- Before production use, configure the Supabase Auth Site URL and redirect URLs in `SOCIAL_INTEGRATIONS_SETUP.md`, create/confirm the allowlisted operator account, and configure the rotated server-only secret key in Vercel.
+
 ## Social platform integrations
 
 The social dashboard now includes a server-side OAuth/API scaffold for Facebook, Instagram, LinkedIn, Google Business Profile and GA4. It uses Supabase Auth for operator sign-in, allowlisted admin email checks, RLS-protected integration tables and server-side AES-256-GCM encryption for OAuth tokens. No provider is shown as connected until OAuth succeeds.
 
 Setup instructions: [SOCIAL_INTEGRATIONS_SETUP.md](SOCIAL_INTEGRATIONS_SETUP.md). Apply the SQL migration in supabase/migrations/ and configure the required secrets in Vercel before attempting provider authorization. Provider approvals and API access are controlled by Meta, LinkedIn and Google; code deployment alone does not grant those permissions.
+
+[executed on device: MSI (864cdbb2-925e-4012-9a0d-c0374f6639f0)]
