@@ -59,5 +59,3 @@ The OAuth client ID is public browser configuration, not a client secret. Google
 The social dashboard now includes a server-side OAuth/API scaffold for Facebook, Instagram, LinkedIn, Google Business Profile and GA4. It uses Supabase Auth for operator sign-in, allowlisted admin email checks, RLS-protected integration tables and server-side AES-256-GCM encryption for OAuth tokens. No provider is shown as connected until OAuth succeeds.
 
 Setup instructions: [SOCIAL_INTEGRATIONS_SETUP.md](SOCIAL_INTEGRATIONS_SETUP.md). Apply the SQL migration in supabase/migrations/ and configure the required secrets in Vercel before attempting provider authorization. Provider approvals and API access are controlled by Meta, LinkedIn and Google; code deployment alone does not grant those permissions.
-
-[executed on device: MSI (864cdbb2-925e-4012-9a0d-c0374f6639f0)]
