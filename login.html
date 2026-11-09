@@ -43,12 +43,18 @@ small{color:#64748b}
  const setCookie=session=>{const age=Math.max(60,Math.min(3600,Number(session.expires_in)||3600));document.cookie=COOKIE+'='+encodeURIComponent(session.access_token)+'; Path=/; Max-Age='+age+'; Secure; SameSite=Lax'};
  const clearCookie=()=>{document.cookie=COOKIE+'=; Path=/; Max-Age=0; Secure; SameSite=Lax'};
  try{
-  if(!window.supabase?.createClient)throw new Error('Supabase Auth library did not load. Refresh and try again.');
-  const cfgResponse=await fetch('/api/social?op=config',{cache:'no-store'});
-  if(!cfgResponse.ok)throw new Error('Supabase configuration could not be loaded.');
+  if(!window.supabase?.createClient)throw new Error('Supabase Auth library did not load. Check your connection and refresh.');
+  // Cache-bust the config request so a stale browser/CDN response cannot mask current Production settings.
+  const cfgResponse=await fetch('/api/social?op=config&_='+Date.now(),{cache:'no-store',headers:{'Accept':'application/json'}});
+  if(!cfgResponse.ok)throw new Error('Supabase configuration endpoint returned HTTP '+cfgResponse.status+'.');
   const cfg=await cfgResponse.json();
-  if(!cfg.supabaseUrl||!cfg.supabaseAnonKey)throw new Error('Supabase URL or publishable key is missing.');
-  const client=window.supabase.createClient(cfg.supabaseUrl,cfg.supabaseAnonKey,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true,flowType:'pkce'}});
+  const supabaseUrl=cfg.supabaseUrl||cfg.SUPABASE_URL||cfg.url;
+  const publishableKey=cfg.supabaseAnonKey||cfg.supabasePublishableKey||cfg.publishableKey||cfg.anonKey;
+  if(!supabaseUrl||!publishableKey){
+   const missing=[!supabaseUrl?'project URL':'publishable key'].join(' and ');
+   throw new Error('Supabase configuration response is missing the '+missing+'. Please contact the Skylar administrator. (HTTP '+cfgResponse.status+')');
+  }
+  const client=window.supabase.createClient(supabaseUrl,publishableKey,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true,flowType:'pkce'}});
   window.skylarSupabase=client;
   const accept=async session=>{
    if(!session)return false;
