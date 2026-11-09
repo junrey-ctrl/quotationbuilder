@@ -8,12 +8,15 @@
 - OAuth state is HMAC-signed and expires after 10 minutes. No provider secret is returned by the public config endpoint.
 
 ## Supabase setup
-1. Create/select a Supabase project.
-2. In Project Settings > API, copy the project URL, publishable/anon key and service-role/secret key.
-3. In Authentication > URL Configuration, set Site URL to https://skylar-salesdesk.vercel.app and add this as an allowed redirect URL.
-4. Enable Email OTP/magic links in Authentication > Providers.
-5. Run supabase/migrations/202611090001_social_integrations.sql in the SQL Editor.
-6. Keep the service-role key server-only.
+1. Select project `xyzlfloiymobaixvlhjw`.
+2. In Project Settings > API Keys, use the publishable key for browser auth. Rotate any secret key that has been pasted into chat, source code, screenshots, or other shared locations before adding the replacement to Vercel.
+3. In Authentication > URL Configuration, set Site URL to `https://skylar-salesdesk.vercel.app` and add `https://skylar-salesdesk.vercel.app/` and `https://skylar-salesdesk.vercel.app/login.html` to the allowed redirect URLs. Add your exact local development origin only if needed.
+4. In Authentication > Providers, enable Email. Keep user sign-ups disabled for this invite-only operator app. Create/invite `junrey@skylarasia.com` as an Auth user and confirm its email.
+5. The existing static HTML app now displays a passwordless PKCE email-link gate. The browser uses only `SUPABASE_URL` and `SUPABASE_PUBLISHABLE_KEY`; the social API independently validates the bearer token with `/auth/v1/user` and checks the allowlisted, confirmed email.
+6. The social API also needs `SUPABASE_SECRET_KEY` in Vercel (server-only) to access the RLS-protected integration tables. The key shown in the previous setup conversation must be rotated before use.
+7. The social integration migration and the `rls_auto_enable()` privilege restriction have been applied through Supabase. The migration file remains in `supabase/migrations/` for source control.
+
+**Route protection:** Vercel Routing Middleware now guards `/` and `/index.html` before the static page is served. It verifies the `skylar_access_token` cookie against Supabase Auth and checks the confirmed, allowlisted email. `/login.html` and the public config endpoint remain reachable so an operator can sign in; the social API separately validates bearer tokens. The cookie is JavaScript-readable because this remains a static browser app, and non-page static assets (for example the logo and service worker) remain public. Do not store confidential business records in static assets. For sensitive multi-user document data, move persistence behind authenticated server endpoints/RLS and adopt server-managed HttpOnly sessions.
 
 ## Vercel environment
 Add all variables in .env.example to Vercel > skylar-salesdesk > Settings > Environment Variables (Production). Set SOCIAL_ADMIN_EMAILS=junrey@skylarasia.com and SOCIAL_BASE_URL=https://skylar-salesdesk.vercel.app. Generate SOCIAL_STATE_SECRET and SOCIAL_TOKEN_ENCRYPTION_KEY independently using:
