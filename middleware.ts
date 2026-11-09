@@ -1,3 +1,5 @@
+declare const process: { env: Record<string, string | undefined> };
+
 import { next } from '@vercel/functions';
 
 const ALLOWED_EMAILS = new Set(['junrey@skylarasia.com']);
