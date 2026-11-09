@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<meta name="theme-color" content="#102b46">
+<title>Sign in · Skylar Desk</title>
+<style>
+*{box-sizing:border-box}body{margin:0;min-height:100vh;display:grid;place-items:center;padding:20px;background:linear-gradient(135deg,#102b46,#1769aa);font:15px/1.5 Inter,system-ui,-apple-system,Segoe UI,sans-serif;color:#17283b}
+main{width:min(100%,440px);background:#fff;border-radius:18px;padding:32px;box-shadow:0 24px 80px #06182b66}
+.brand{font-size:12px;font-weight:800;letter-spacing:.12em;color:#19a7c7;margin-bottom:14px}
+h1{font-size:25px;line-height:1.2;color:#102b46;margin:0 0 10px}
+p{color:#64748b;margin:0 0 20px}
+label{display:block;font-size:13px;font-weight:700;margin:16px 0 6px}
+input{width:100%;padding:12px;border:1px solid #cbd5e1;border-radius:9px;font:inherit}
+button{width:100%;margin-top:14px;padding:12px;border:0;border-radius:9px;background:#1769aa;color:#fff;font:inherit;font-weight:750;cursor:pointer}
+button:disabled{opacity:.6;cursor:wait}
+#message{min-height:48px;margin-top:16px;font-size:13px;overflow-wrap:anywhere}
+small{color:#64748b}
+</style>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+<main>
+ <div class="brand">SKYLAR EDUCATION ASIA</div>
+ <h1>Sign in to Skylar Desk</h1>
+ <p>Use your authorized company email. We’ll send a secure, one-time sign-in link.</p>
+ <form id="form">
+  <label for="email">Company email</label>
+  <input id="email" type="email" autocomplete="email" required maxlength="254" placeholder="name@company.com">
+  <button id="submit" type="submit">Send secure sign-in link</button>
+ </form>
+ <p id="message" role="status" aria-live="polite">Preparing secure sign-in…</p>
+ <small>Access is restricted to authorized Skylar operators.</small>
+</main>
+<script>
+(async function(){
+ const ALLOWED='junrey@skylarasia.com', COOKIE='skylar_access_token';
+ const message=document.getElementById('message'),form=document.getElementById('form'),email=document.getElementById('email'),button=document.getElementById('submit');
+ const say=s=>message.textContent=s;
+ const params=new URLSearchParams(location.search),candidate=params.get('next')||'/',next=['/','/index.html'].includes(candidate)?candidate:'/';
+ const setCookie=session=>{const age=Math.max(60,Math.min(3600,Number(session.expires_in)||3600));document.cookie=COOKIE+'='+encodeURIComponent(session.access_token)+'; Path=/; Max-Age='+age+'; Secure; SameSite=Lax'};
+ const clearCookie=()=>{document.cookie=COOKIE+'=; Path=/; Max-Age=0; Secure; SameSite=Lax'};
+ try{
+  if(!window.supabase?.createClient)throw new Error('Supabase Auth library did not load. Refresh and try again.');
+  const cfgResponse=await fetch('/api/social?op=config',{cache:'no-store'});
+  if(!cfgResponse.ok)throw new Error('Supabase configuration could not be loaded.');
+  const cfg=await cfgResponse.json();
+  if(!cfg.supabaseUrl||!cfg.supabaseAnonKey)throw new Error('Supabase URL or publishable key is missing.');
+  const client=window.supabase.createClient(cfg.supabaseUrl,cfg.supabaseAnonKey,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true,flowType:'pkce'}});
+  window.skylarSupabase=client;
+  const accept=async session=>{
+   if(!session)return false;
+   const user=session.user;
+   if(!user?.email_confirmed_at||String(user.email||'').toLowerCase()!==ALLOWED){clearCookie();await client.auth.signOut();say('This account is not authorized for Skylar Desk.');return false}
+   setCookie(session);say('Signed in. Opening your workspace…');location.replace(next);return true;
+  };
+  const {data,error}=await client.auth.getSession();if(error)throw error;
+  if(data.session){await accept(data.session);return}
+  clearCookie();say('Enter your authorized company email to receive a sign-in link.');
+  client.auth.onAuthStateChange((event,session)=>{if(session&&['SIGNED_IN','TOKEN_REFRESHED','INITIAL_SESSION'].includes(event))void accept(session)});
+  form.addEventListener('submit',async e=>{
+   e.preventDefault();const value=email.value.trim().toLowerCase();
+   if(value!==ALLOWED){say('This email is not on the Skylar Desk access list.');return}
+   button.disabled=true;button.textContent='Sending…';say('Requesting a secure sign-in link…');
+   try{const {error}=await client.auth.signInWithOtp({email:value,options:{emailRedirectTo:location.origin+'/login.html?next='+encodeURIComponent(next),shouldCreateUser:false}});if(error)throw error;say('If this account is enabled, a secure sign-in link has been sent. Open it on this device to finish signing in.')}
+   catch(err){say(err.message||'Unable to send sign-in link.')}
+   finally{button.disabled=false;button.textContent='Send secure sign-in link'}
+  });
+ }catch(error){say(error.message||'Authentication initialization failed.')}
+})();
+</script>
+</body>
+</html>
+
+[executed on device: MSI (864cdbb2-925e-4012-9a0d-c0374f6639f0)]
