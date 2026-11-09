@@ -44,3 +44,10 @@ Skylar Desk can prepare a Gmail draft with the generated proposal PDF attached. 
 6. Review the resulting Gmail draft and its PDF attachment before sending.
 
 The OAuth client ID is public browser configuration, not a client secret. Google may require consent-screen publishing or test-user configuration depending on the OAuth app's status. PDF generation loads html2pdf.js from a CDN and therefore requires an internet connection for this feature; the rest of the offline-first app remains available.
+
+
+## Social platform integrations
+
+The social dashboard now includes a server-side OAuth/API scaffold for Facebook, Instagram, LinkedIn, Google Business Profile and GA4. It uses Supabase Auth for operator sign-in, allowlisted admin email checks, RLS-protected integration tables and server-side AES-256-GCM encryption for OAuth tokens. No provider is shown as connected until OAuth succeeds.
+
+Setup instructions: [SOCIAL_INTEGRATIONS_SETUP.md](SOCIAL_INTEGRATIONS_SETUP.md). Apply the SQL migration in supabase/migrations/ and configure the required secrets in Vercel before attempting provider authorization. Provider approvals and API access are controlled by Meta, LinkedIn and Google; code deployment alone does not grant those permissions.
