@@ -72,5 +72,3 @@ export default async function middleware(request) {
 export const config = {
   matcher: ['/((?!login\\.html$).*)'],
 };
-
-[executed on device: MSI (864cdbb2-925e-4012-9a0d-c0374f6639f0)]
